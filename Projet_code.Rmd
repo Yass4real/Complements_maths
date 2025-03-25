@@ -382,7 +382,46 @@ fiable des deux classes.
 
 
 ### 2.2 Variables qualitatives : barplot
+*Interprétation :* 
 
+- Répartition de Age_cat selon le risque : 
+On observe une légère surreprésentation des Seniors et Elderly dans le groupe à risque.Cela confirme que l’âge avancé est un facteur associé au risque d’infarctus, sans être totalement déterminant.
+
+
+- Répartition de Sex selon le risque : 
+Le nombre d’hommes dans le groupe à risque est nettement supérieur à celui des femmes.Le sexe masculin apparaît donc clairement corrélé au risque cardiaque dans ce jeu de données.
+
+
+- Répartition de Smoking selon le risque :
+La majorité des fumeurs se trouve dans le groupe à risque, tandis que les non-fumeurs sont peu présents dans ce groupe.Le tabagisme est ici un facteur fortement associé au risque, avec un potentiel explicatif élevé.
+
+- Répartition de Diabetes selon le risque :
+Les diabétiques sont nettement plus nombreux dans le groupe à risque que les non-diabétiques.Cette variable est donc fortement liée au risque de crise cardiaque et sera déterminante dans la modélisation.
+
+
+- Répartition de Obesity selon le risque :
+Les effectifs sont très similaires dans les deux groupes, que ce soit pour les obèses ou non.L’obésité n’apparaît pas ici comme un facteur discriminant net, bien qu’elle puisse jouer un rôle indirect.
+
+
+- Répartition de Family.History selon le risque : 
+Légère surreprésentation des antécédents familiaux dans le groupe à risque, mais la différence reste modérée.
+Cette variable pourrait donc être informative, mais faiblement discriminante seule.
+
+- Répartition de Diet selon le risque d’infarctus :
+Les effectifs sont très proches entre les groupes, quelle que soit la qualité du régime alimentaire. La variable Diet ne montre pas de tendance marquée entre alimentation et risque cardiaque. Son pouvoir prédictif semble faible lorsqu’elle est prise isolément.
+
+- Répartition de Previous.Heart.Problems selon le risque : 
+Les patients ayant eu des antécédents cardiaques sont légèrement plus nombreux dans le groupe à risque. Cette variable est donc pertinente, mais la différence reste modérée.
+
+- Répartition de Medication.Use selon le risque :
+Les proportions sont quasiment identiques entre les deux groupes. La prise de médicament ne permet pas de discriminer clairement les patients à risque dans ce jeu de données.
+
+- Répartition de Alcohol.Consumption selon le risque :
+La consommation d’alcool est nettement plus élevée chez les patients à risque. Cette variable est donc fortement associée au risque d’infarctus, et mérite d’être prise en compte dans la modélisation.
+
+- Répartition de Diet_encoded selon le risque : 
+La variable encodée reprend fidèlement la distribution observée pour Diet.
+Aucune différence significative entre les groupes.Comme sa version non encodée, elle semble peu informative seule.
 
 
 ## 3. Analyse multivariée
