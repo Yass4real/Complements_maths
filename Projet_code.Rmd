@@ -380,6 +380,59 @@ fiable des deux classes.
 
 ### 2.1 Variables quantitatives : boxplot
 
+```{r, out.width="50%", fig.align = "center"}
+for (col in colnames(quantitative_vars)){
+  boxplot(quantitative_vars[[col]], main=paste("Histogramme de", col), col="lightblue", breaks=30)
+}
+
+```
+*Interpretation*
+- Age : La distribution est centrée autour de 55 ans, avec un étalement entre 20 et 90 ans.
+L’âge est donc bien réparti, avec une population majoritairement adulte.
+
+- Cholesterol : Les valeurs se concentrent autour de 250 mg/dL, mais avec une large dispersion, allant de 120 à près de 400.Cela montre une variabilité importante du taux de cholestérol parmi les patients.
+
+- Heart.Rate : La fréquence cardiaque médiane est autour de 75 bpm. La majorité des patients ont une fréquence normale, avec quelques cas plus élevés.
+
+- BMI : L’indice de masse corporelle médian est d’environ 28. La distribution indique une prévalence du surpoids, voire de l’obésité.
+
+- Triglycerides : Très grande dispersion, avec une médiane vers 400, mais des valeurs s’étendant de 0 à 800. Cela reflète une hétérogénéité marquée dans le profil lipidique des patients.
+
+- Systolic_BP :La pression systolique médiane est proche de 135 mmHg.La majorité des patients sont en pré-hypertension ou hypertension légère.
+
+- Diastolic_BP : Médiane autour de 85 mmHg, avec une distribution symétrique. Les patients ont une pression diastolique modérée à légèrement élevée.
+
+- Exercise.Hours.Per.Week : Les heures de sport par semaine sont très variables, avec une médiane autour de 10h.Certains patients sont très sédentaires, d’autres très actifs.
+
+- Sedentary.Hours.Per.Day : La médiane est proche de 6h par jour. Les patients ont un niveau de sédentarité modéré, avec peu de cas extrêmes.
+
+- Stress.Level : Niveau de stress globalement homogène, centré autour de 5.Indique une distribution équilibrée du stress perçu.
+
+- Income : Le revenu présente une grande variabilité. Certains patients ont des revenus très élevés, d’autres très faibles.
+
+- Physical.Activity.Days.Per.Week : La majorité des patients pratiquent 2 à 4 jours d’activité physique.Distribution relativement symétrique.
+
+-Sleep.Hours.Per.Day : Le sommeil est centré autour de 7h par nuit. Cela correspond à la norme recommandée, avec peu de cas extrêmes.
+
+#### Variables qualitatives
+
+```{r, out.width="50%", fig.align = "center"}
+for (col in colnames(qualitative_vars)){
+  barplot(table(qualitative_vars[[col]]), main=paste("Histogramme de", col), col="pink")
+}
+```
+#### Boxplot de chaque variable quantitative en fonction du risque cardiaque
+
+```{r, out.width="50%", fig.align = "center", eval=TRUE}
+for(i in 1:ncol(quantitative_vars)){
+  main_i = paste0("Boxplot de ",  colnames(quantitative_vars)[i], 
+                  "\n en fonction de heart_risk")
+  ylab_i = paste0(colnames(quantitative_vars)[i])
+  boxplot(quantitative_vars[,i] ~ target, col = c("pink", "lightblue"), 
+          main = main_i, ylab = ylab_i, xlab = "heart_risk")
+}
+```
+
 Interprétation : 
 - Age en fonction du risque cardiaque : 
 L’âge présente une légère différence entre les deux groupes, suggérant une capacité prédictive modérée. Pris seul, son pouvoir explicatif est limité, mais il peut contribuer utilement au modèle en combinaison avec d’autres variables.
@@ -433,8 +486,105 @@ La durée de sommeil quotidienne est pratiquement la même dans les deux groupes
 
 
 ### 2.2 Variables qualitatives : barplot
+```{r, out.width="50%", fig.align = "center"}
+for (col in colnames(qualitative_vars)){
+  barplot(table(qualitative_vars[[col]]), main=paste("Histogramme de", col), col="pink")
+}
+
+```
+*Interprétation* : 
+- Age_cat : 
+La majorité des individus se répartit entre les catégories Middle-aged, Senior et Elderly.La classe Jeune est sous-représentée.Cela reflète une population principalement composée d’adultes d’âge moyen à avancé, ce qui est cohérent avec une étude sur le risque cardiaque.
+
+- Sex : 
+Il y a plus d’hommes que de femmes dans l’échantillon. Cela pourrait avoir un impact sur l’analyse, notamment si le sexe est corrélé au risque.Il faudra donc contrôler cette variable dans les modèles supervisés.
+
+- Smoking : 
+Une grande majorité des patients sont fumeurs (modalité 1). Cela suggère une prévalence élevée du tabagisme dans la base, ce qui est pertinent car le tabac est un facteur de risque connu. Cette variable pourrait donc avoir un fort pouvoir explicatif.
+
+- Diabetes : 
+Il y a plus de patients diabétiques (modalité 1) que non-diabétiques.
+Le diabète étant un facteur de risque cardiovasculaire important, cette variable est hautement pertinente pour la prédiction.
+
+- Obesity : 
+La répartition entre obèses (1) et non-obèses (0) est quasiment équilibrée.
+Cela permet une bonne comparaison des effets de l’obésité sur le risque cardiaque.Cette variable est donc potentiellement informative.
+
+- Family.History :
+Le nombre de patients avec ou sans antécédents familiaux est presque identique.Cela assure une bonne représentativité pour analyser l’impact du facteur génétique sur le risque.
+
+- Diet :
+Les trois régimes alimentaires (Healthy, Average, Unhealthy) sont équilibrés en effectif. Cette répartition permet une analyse comparative fiable entre types d’alimentation, un facteur potentiellement associé au risque cardiaque.
+
+- Previous Heart Problems :
+Les patients avec et sans antécédents cardiaques sont quasiment à égalité.
+Cela garantit une bonne base pour évaluer l’impact des antécédents sur la prédiction du risque.
+
+- Medication Use :
+La distribution est également équilibrée entre les patients sous traitement (1) et ceux sans (0). Cette variable pourrait jouer un rôle indirect (ex. : présence de pathologies chroniques) dans le modèle.
+
+- Alcohol Consumption :
+Une majorité de patients consomment de l’alcool (valeur 1). Ce facteur de risque est bien représenté, ce qui permettra d’évaluer son lien avec les crises cardiaques.
+
+- Diet_encoded :
+Ce graphique correspond à l’encodage numérique de la variable Diet.
+Il reprend la répartition équilibrée observée précédemment entre les trois catégories.
+
+```{r}
+for (i in 1:ncol(qualitative_vars)) {
+  var_name <- colnames(qualitative_vars)[i]
+  tab <- table(qualitative_vars[[i]], target)
+
+  barplot(tab,
+          beside = TRUE,
+          col = c("pink", "lightblue"),
+          main = paste("Répartition de", var_name, "selon le risque d'infarctus"),
+          xlab = var_name,
+          ylab = "Effectifs",
+          legend.text = c("Absence de risque", "Présence de risque"))
+}
+
+```
+*Interprétation :* 
+
+- Répartition de Age_cat selon le risque : 
+On observe une légère surreprésentation des Seniors et Elderly dans le groupe à risque.Cela confirme que l’âge avancé est un facteur associé au risque d’infarctus, sans être totalement déterminant.
 
 
+- Répartition de Sex selon le risque : 
+Le nombre d’hommes dans le groupe à risque est nettement supérieur à celui des femmes.Le sexe masculin apparaît donc clairement corrélé au risque cardiaque dans ce jeu de données.
+
+
+- Répartition de Smoking selon le risque :
+La majorité des fumeurs se trouve dans le groupe à risque, tandis que les non-fumeurs sont peu présents dans ce groupe.Le tabagisme est ici un facteur fortement associé au risque, avec un potentiel explicatif élevé.
+
+- Répartition de Diabetes selon le risque :
+Les diabétiques sont nettement plus nombreux dans le groupe à risque que les non-diabétiques.Cette variable est donc fortement liée au risque de crise cardiaque et sera déterminante dans la modélisation.
+
+
+- Répartition de Obesity selon le risque :
+Les effectifs sont très similaires dans les deux groupes, que ce soit pour les obèses ou non.L’obésité n’apparaît pas ici comme un facteur discriminant net, bien qu’elle puisse jouer un rôle indirect.
+
+
+- Répartition de Family.History selon le risque : 
+Légère surreprésentation des antécédents familiaux dans le groupe à risque, mais la différence reste modérée.
+Cette variable pourrait donc être informative, mais faiblement discriminante seule.
+
+- Répartition de Diet selon le risque d’infarctus :
+Les effectifs sont très proches entre les groupes, quelle que soit la qualité du régime alimentaire. La variable Diet ne montre pas de tendance marquée entre alimentation et risque cardiaque. Son pouvoir prédictif semble faible lorsqu’elle est prise isolément.
+
+- Répartition de Previous.Heart.Problems selon le risque : 
+Les patients ayant eu des antécédents cardiaques sont légèrement plus nombreux dans le groupe à risque. Cette variable est donc pertinente, mais la différence reste modérée.
+
+- Répartition de Medication.Use selon le risque :
+Les proportions sont quasiment identiques entre les deux groupes. La prise de médicament ne permet pas de discriminer clairement les patients à risque dans ce jeu de données.
+
+- Répartition de Alcohol.Consumption selon le risque :
+La consommation d’alcool est nettement plus élevée chez les patients à risque. Cette variable est donc fortement associée au risque d’infarctus, et mérite d’être prise en compte dans la modélisation.
+
+- Répartition de Diet_encoded selon le risque : 
+La variable encodée reprend fidèlement la distribution observée pour Diet.
+Aucune différence significative entre les groupes.Comme sa version non encodée, elle semble peu informative seule
 
 ## 3. Analyse multivariée
 
