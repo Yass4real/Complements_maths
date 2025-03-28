@@ -628,3 +628,61 @@ library(rpart.plot)
 
 ### 1.5. Prédiction de la target avec l'arbre de décision sur le jeu de données de test
 
+### Classification naive bayensienne
+
+
+```{r, results='hold', message=FALSE, warning=FALSE}
+# Charger les packages
+library(e1071)
+library(caret)
+
+# S'assurer que target est factor
+target <- as.factor(data$Heart.Attack.Risk)
+
+# Supprimer les variables non pertinentes
+data_clean <- subset(data, select = -c(Patient.ID, Country, Continent, Hemisphere))
+
+# Séparation des données
+set.seed(1234)
+train_index <- sample(1:nrow(data_clean), size = 0.8 * nrow(data_clean))
+train_data <- data_clean[train_index, ]
+test_data <- data_clean[-train_index, ]
+
+# Variable target
+target_train <- as.factor(train_data$Heart.Attack.Risk)
+target_test <- as.factor(test_data$Heart.Attack.Risk)
+
+# Retirer la colonne target des prédicteurs
+train_data <- subset(train_data, select = -Heart.Attack.Risk)
+test_data <- subset(test_data, select = -Heart.Attack.Risk)
+
+# Convertir les colonnes character en facteur
+train_data[] <- lapply(train_data, function(x) if (is.character(x)) as.factor(x) else x)
+test_data[] <- lapply(test_data, function(x) if (is.character(x)) as.factor(x) else x)
+
+# Entraînement du modèle Naïve Bayes
+nb_model <- naiveBayes(x = train_data, y = target_train)
+
+# Prédictions
+target_pred_nb <- predict(nb_model, newdata = test_data)
+
+# Vérification des longueurs
+stopifnot(length(target_pred_nb) == length(target_test))
+
+# Conversion en facteur si nécessaire
+target_pred_nb <- factor(target_pred_nb, levels = levels(target_test))
+
+# Matrice de confusion
+confusionMatrix(target_pred_nb, target_test)
+```
+*Interprétation*
+On a 	:
+- TN (True Negatives) = 710 : le modèle a correctement prédit “pas de risque”
+- FP (False Positives) = 420 : le modèle a prédit “risque” alors qu’il n’y en avait pas
+- FN (False Negatives) = 351 : le modèle n’a pas détecté un vrai cas de risque
+- TP (True Positives) = 272 : le modèle a bien détecté un vrai cas de risque
+	
+	
+Accuracy = 0.5602
+Le modèle est correct dans 56% des cas. C’est inférieur au taux de majorité (voir ci-dessous), donc pas très performant.
+
